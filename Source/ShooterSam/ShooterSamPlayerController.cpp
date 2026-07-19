@@ -13,6 +13,13 @@ void AShooterSamPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	HUDWidget = CreateWidget<UHUDWidget>(this, HUDWidgetClass);
+
+	if (HUDWidget)
+	{
+		HUDWidget->AddToViewport();
+	}
+
 	// only spawn touch controls on local player controllers
 	if (IsLocalPlayerController() && ShouldUseTouchControls())
 	{
