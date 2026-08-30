@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "Gun.generated.h"
 
 UCLASS()
@@ -23,11 +25,22 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	USceneComponent* SceneComponent;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* SkeletalMeshComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UNiagaraComponent* MuzzleFlash;
+
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* ImpactEffect;
+
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 10000.0f;
+
+	AController* OwnerController;
 
 	void PullTrigger();
 };

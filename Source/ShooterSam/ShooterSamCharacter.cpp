@@ -86,6 +86,7 @@ void AShooterSamCharacter::BeginPlay()
 	{
 		Rifle->SetOwner(this);
 		Rifle->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+		Rifle->OwnerController = GetController();
 	}
 }
 

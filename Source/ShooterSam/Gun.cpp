@@ -14,6 +14,9 @@ AGun::AGun()
 
 	SkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));
 	SkeletalMeshComponent->SetupAttachment(SceneComponent);
+
+	MuzzleFlash = CreateDefaultSubobject<UNiagaraComponent>(TEXT("MuzzleFlash"));
+	MuzzleFlash->SetupAttachment(SkeletalMeshComponent);
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +24,7 @@ void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	MuzzleFlash->Deactivate();
 }
 
 // Called every frame
@@ -32,6 +36,23 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::PullTrigger()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Trigger pulled!"));
+	MuzzleFlash->Activate(true);
+
+	if (OwnerController)
+	{
+		FVector ViewPointLocation;
+		FRotator ViewPointRotation;
+		OwnerController->GetPlayerViewPoint(ViewPointLocation, ViewPointRotation);
+		FVector EndLocation = ViewPointLocation + (ViewPointRotation.Vector() * MaxRange);
+
+		FHitResult HitResult;
+		FCollisionQueryParams Params;
+		Params.AddIgnoredActor(this);
+		Params.AddIgnoredActor(GetOwner());
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, ViewPointLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel1, Params))
+		{
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactEffect, HitResult.Location, ViewPointRotation);
+		}
+	}
 }
 
