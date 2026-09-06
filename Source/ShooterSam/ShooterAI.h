@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "ShooterSamCharacter.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "ShooterAI.generated.h"
 
 /**
@@ -20,7 +22,12 @@ protected:
 
 public:
 
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditAnywhere)
+	UBehaviorTree* EnemyBehaviorTree;
 
-	APawn* PlayerPawn;
+	AShooterSamCharacter* PlayerCharacter;
+	AShooterSamCharacter* ControllerCharacter;
+	UBlackboardComponent* BlackboardComp;
+
+	void StartBehaviorTree(AShooterSamCharacter* Player);
 };

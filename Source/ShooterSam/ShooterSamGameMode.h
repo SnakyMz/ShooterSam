@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "ShooterSamCharacter.h"
 #include "ShooterSamGameMode.generated.h"
 
 /**
@@ -14,10 +15,17 @@ class AShooterSamGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+protected:
+
+	virtual void BeginPlay() override;
+
 public:
 	
 	/** Constructor */
 	AShooterSamGameMode();
+
+	AShooterSamCharacter* PlayerCharacter;
+	TArray<AActor*> EnemyCharacters;
 };
 
 
