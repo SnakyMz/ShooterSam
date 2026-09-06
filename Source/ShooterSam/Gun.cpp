@@ -38,6 +38,7 @@ void AGun::Tick(float DeltaTime)
 void AGun::PullTrigger()
 {
 	MuzzleFlash->Activate(true);
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), MuzzleSound, GetActorLocation());
 
 	if (OwnerController)
 	{
@@ -53,6 +54,7 @@ void AGun::PullTrigger()
 		if (GetWorld()->LineTraceSingleByChannel(HitResult, ViewPointLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel1, Params))
 		{
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactEffect, HitResult.ImpactPoint, HitResult.ImpactNormal.Rotation());
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, HitResult.ImpactPoint);
 			AActor* HitActor = HitResult.GetActor();
 			if (HitActor)
 			{

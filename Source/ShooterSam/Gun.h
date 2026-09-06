@@ -38,6 +38,12 @@ public:
 	UNiagaraSystem* ImpactEffect;
 
 	UPROPERTY(EditAnywhere)
+	USoundBase* MuzzleSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* ImpactSound;
+
+	UPROPERTY(EditAnywhere)
 	float MaxRange = 10000.0f;
 
 	UPROPERTY(EditAnywhere)
