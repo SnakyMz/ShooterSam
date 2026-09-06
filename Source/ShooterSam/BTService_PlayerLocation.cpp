@@ -3,7 +3,7 @@
 
 #include "BTService_PlayerLocation.h"
 #include "Kismet/GameplayStatics.h"
-#include "ShooterAI.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 UBTService_PlayerLocation::UBTService_PlayerLocation()
 {

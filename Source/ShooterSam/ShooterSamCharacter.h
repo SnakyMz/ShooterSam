@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "Gun.h"
+#include "ShooterSamPlayerController.h"
 #include "ShooterSamCharacter.generated.h"
 
 class USpringArmComponent;
@@ -112,7 +113,11 @@ public:
 
 	AGun* Rifle;
 
+	AShooterSamPlayerController* PlayerController;
+
 	void Shoot();
+
+	void UpdateHUD();
 
 	UFUNCTION()
 	void OnDamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);

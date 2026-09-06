@@ -81,6 +81,7 @@ void AShooterSamCharacter::BeginPlay()
 
 	OnTakeAnyDamage.AddDynamic(this, &AShooterSamCharacter::OnDamageTaken);
 	CurrentHealth = MaxHealth;
+	UpdateHUD();
 
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 
@@ -158,6 +159,15 @@ void AShooterSamCharacter::Shoot()
 	Rifle->PullTrigger();
 }
 
+void AShooterSamCharacter::UpdateHUD()
+{
+	PlayerController = Cast<AShooterSamPlayerController>(GetController());
+	if (PlayerController)
+	{
+		PlayerController->HUDWidget->SetHealthPercent(CurrentHealth / MaxHealth);
+	}
+}
+
 void AShooterSamCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
 	if (IsAlive)
@@ -167,7 +177,10 @@ void AShooterSamCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, con
 		{
 			IsAlive = false;
 			CurrentHealth = 0.0f;
+			UpdateHUD();
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			DetachFromControllerPendingDestroy();
 		}
+		UpdateHUD();
 	}
 }
